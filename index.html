@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="uz_j2c_UOuyTXyW6W87egnN8gHCyfSqm3kyY_XEx62w" />
+  <title>Protein Intake Calculator (Male) | How Much Protein Do Men Need?</title>
+  <meta name="description" content="Free protein intake calculator for men. Calculate daily protein needs based on weight, activity level, and fitness goals — muscle building, weight loss, or per meal.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://pl29627367.effectivecpmnetwork.com/ac/27/45/ac27452f559e8fad64d8d6406362e215.js"></script>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --emerald:#10B981;
+      --emerald-dk:#059669;
+      --slate-900:#0F172A;
+      --slate-700:#334155;
+      --slate-500:#64748B;
+      --slate-200:#E2E8F0;
+      --slate-100:#F1F5F9;
+      --slate-50:#F8FAFC;
+      --white:#FFFFFF;
+      --radius:16px;
+      --shadow:0 1px 3px rgba(15,23,42,.06),0 12px 40px rgba(15,23,42,.06);
+      --shadow-lg:0 24px 64px rgba(15,23,42,.1);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--slate-50);color:var(--slate-900);line-height:1.65;font-size:15px;-webkit-font-smoothing:antialiased}
+    .container{max-width:1160px;margin:0 auto;padding:0 24px}
+
+    /* Nav */
+    nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.8);backdrop-filter:blur(12px);border-bottom:1px solid var(--slate-200)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--slate-900);text-decoration:none;letter-spacing:-.02em}
+    .brand-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--emerald),var(--emerald-dk));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+    .nav-badge{font-size:12px;font-weight:600;color:var(--emerald-dk);background:#ECFDF5;padding:6px 12px;border-radius:20px;border:1px solid #A7F3D0}
+
+    /* Hero */
+    .hero{padding:56px 0 40px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:800px;height:400px;background:radial-gradient(ellipse,rgba(16,185,129,.12) 0%,transparent 70%);pointer-events:none}
+    .hero-inner{position:relative}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--emerald-dk);margin-bottom:20px}
+    .eyebrow::before,.eyebrow::after{content:'';width:24px;height:1px;background:var(--emerald)}
+    .hero h1{font-size:clamp(32px,5vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.03em;max-width:720px;margin:0 auto 16px}
+    .hero h1 span{background:linear-gradient(135deg,var(--emerald-dk),#047857);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-desc{font-size:18px;color:var(--slate-500);max-width:560px;margin:0 auto 28px;line-height:1.6}
+    .trust-row{display:flex;justify-content:center;flex-wrap:wrap;gap:20px 32px}
+    .trust-item{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--slate-700)}
+    .trust-item svg{width:18px;height:18px;color:var(--emerald)}
+
+    /* Ad */
+    .ad-slot{display:flex;justify-content:center;margin:32px 0}
+
+    /* Calculator widget */
+    .calc-widget{background:var(--white);border:1px solid var(--slate-200);border-radius:24px;box-shadow:var(--shadow-lg);overflow:hidden;margin-bottom:56px}
+    .calc-widget-head{padding:28px 32px 0;border-bottom:1px solid var(--slate-100)}
+    .calc-widget-head h2{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+    .calc-widget-head p{font-size:14px;color:var(--slate-500);margin-bottom:20px}
+    .mode-tabs{display:flex;gap:4px;overflow-x:auto;padding-bottom:0}
+    .mode-tab{flex-shrink:0;padding:12px 20px;border:none;background:transparent;font-family:inherit;font-size:13px;font-weight:600;color:var(--slate-500);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:.15s;white-space:nowrap}
+    .mode-tab:hover{color:var(--slate-900)}
+    .mode-tab.active{color:var(--emerald-dk);border-bottom-color:var(--emerald)}
+
+    .calc-widget-body{display:grid;grid-template-columns:1fr 1fr;min-height:420px}
+    .calc-form{padding:32px;border-right:1px solid var(--slate-100)}
+    .field{margin-bottom:20px}
+    .field label{display:block;font-size:13px;font-weight:600;color:var(--slate-700);margin-bottom:8px}
+    .field-hint{font-size:12px;color:var(--slate-500);font-weight:400;margin-top:4px}
+    .input{width:100%;padding:12px 16px;border:1px solid var(--slate-200);border-radius:12px;font-family:inherit;font-size:15px;color:var(--slate-900);background:var(--slate-50);outline:none;transition:border .15s,box-shadow .15s}
+    .input:focus{border-color:var(--emerald);background:var(--white);box-shadow:0 0 0 3px rgba(16,185,129,.15)}
+    select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px}
+    .seg{display:inline-flex;background:var(--slate-100);border-radius:10px;padding:4px;margin-bottom:8px}
+    .seg button{padding:8px 16px;border:none;border-radius:8px;font-family:inherit;font-size:13px;font-weight:600;color:var(--slate-500);cursor:pointer;background:transparent;transition:.15s}
+    .seg button.active{background:var(--white);color:var(--slate-900);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+    .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .check{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--slate-500);margin:12px 0}
+    .check input{width:18px;height:18px;margin-top:2px;accent-color:var(--emerald-dk)}
+    .btn-calc{width:100%;padding:14px 24px;background:var(--slate-900);color:var(--white);border:none;border-radius:12px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;transition:transform .15s,background .15s}
+    .btn-calc:hover{background:#1E293B;transform:translateY(-1px)}
+
+    .calc-result{background:linear-gradient(165deg,#0F172A 0%,#1E293B 50%,#134E4A 100%);padding:32px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+    .calc-result::before{content:'';position:absolute;top:-50%;right:-30%;width:300px;height:300px;background:radial-gradient(circle,rgba(16,185,129,.25),transparent 70%);pointer-events:none}
+    .result-empty{text-align:center;color:rgba(255,255,255,.5);font-size:14px;padding:40px 20px;position:relative}
+    .result-empty-icon{width:56px;height:56px;margin:0 auto 16px;border:2px dashed rgba(255,255,255,.2);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px}
+    .result-live{display:none;position:relative}
+    .result-live.show{display:block}
+    .result-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.5);margin-bottom:8px}
+    .result-value{font-size:64px;font-weight:800;color:var(--white);line-height:1;letter-spacing:-.03em}
+    .result-value small{font-size:28px;font-weight:600;color:var(--emerald);margin-left:4px}
+    .result-meta{font-size:14px;color:rgba(255,255,255,.65);margin-top:10px;margin-bottom:24px}
+    .result-range{height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin-bottom:8px;overflow:hidden}
+    .result-range i{display:block;height:100%;background:linear-gradient(90deg,var(--emerald),#34D399);border-radius:2px;transition:width .4s ease}
+    .result-range-labels{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.45);margin-bottom:24px}
+    .result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .result-stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 10px;text-align:center}
+    .result-stat .k{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.45)}
+    .result-stat .v{font-size:18px;font-weight:800;color:var(--white);margin-top:4px}
+    .tab-panel{display:none}
+    .tab-panel.active{display:block}
+
+    /* Metrics strip */
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:56px}
+    .metric{background:var(--white);border:1px solid var(--slate-200);border-radius:var(--radius);padding:24px;text-align:center;transition:box-shadow .2s}
+    .metric:hover{box-shadow:var(--shadow)}
+    .metric .val{font-size:28px;font-weight:800;color:var(--emerald-dk);letter-spacing:-.02em}
+    .metric .lbl{font-size:13px;color:var(--slate-500);margin-top:4px;line-height:1.4}
+
+    /* Sections */
+    .section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--emerald-dk);margin-bottom:8px}
+    .section-title{font-size:28px;font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
+    .section-desc{color:var(--slate-500);font-size:16px;margin-bottom:32px;max-width:560px}
+
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:56px}
+    .card{background:var(--white);border:1px solid var(--slate-200);border-radius:var(--radius);padding:32px}
+    .card h3{font-size:18px;font-weight:700;margin-bottom:16px;letter-spacing:-.01em}
+    .card p,.card li{font-size:14px;color:var(--slate-500);line-height:1.65}
+    .card ul{margin:12px 0 0 18px}
+    .callout{background:var(--slate-50);border:1px solid var(--slate-200);border-radius:12px;padding:20px;margin:16px 0;font-size:14px;color:var(--slate-700)}
+
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--slate-100)}
+    th{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--slate-500);background:var(--slate-50)}
+    tr:last-child td{border-bottom:none}
+    tbody tr:hover td{background:#FAFBFC}
+
+    .example-list{display:flex;flex-direction:column;gap:12px}
+    .example-item{padding:16px 18px;border:1px solid var(--slate-200);border-radius:12px;background:var(--slate-50)}
+    .example-item strong{display:block;font-size:14px;color:var(--slate-900);margin-bottom:4px}
+    .example-item span{font-size:13px;color:var(--slate-500)}
+
+    .faq-list{display:flex;flex-direction:column;gap:0}
+    .faq-item{padding:20px 0;border-bottom:1px solid var(--slate-200)}
+    .faq-item:last-child{border-bottom:none}
+    .faq-item h4{font-size:15px;font-weight:700;margin-bottom:6px;color:var(--slate-900)}
+    .faq-item p{font-size:14px;color:var(--slate-500)}
+
+    .tips-bento{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+    .tip-tile{background:var(--slate-50);border:1px solid var(--slate-200);border-radius:12px;padding:18px}
+    .tip-tile h4{font-size:13px;font-weight:700;color:var(--slate-900);margin-bottom:4px}
+    .tip-tile p{font-size:12px;color:var(--slate-500);line-height:1.5}
+
+    .ad-box{min-height:250px;border-radius:var(--radius);overflow:hidden;display:flex;justify-content:center;align-items:center;background:var(--white);border:1px solid var(--slate-200);margin-top:24px}
+
+    footer{background:var(--white);border-top:1px solid var(--slate-200);padding:40px 0;margin-top:24px}
+    footer p{text-align:center;font-size:13px;color:var(--slate-500)}
+    .hidden{display:none!important}
+
+    @media(max-width:960px){
+      .calc-widget-body{grid-template-columns:1fr}
+      .calc-form{border-right:none;border-bottom:1px solid var(--slate-100)}
+      .metrics{grid-template-columns:1fr 1fr}
+      .grid-2,.tips-bento{grid-template-columns:1fr}
+      .result-value{font-size:48px}
+    }
+    @media(max-width:600px){
+      .metrics{grid-template-columns:1fr}
+      .field-row{grid-template-columns:1fr}
+      .result-stats{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="#" class="brand"><span class="brand-icon">🥩</span>ProteinFit</a>
+    <span class="nav-badge">Free · No Sign-up</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="eyebrow">For Men · Evidence-Based</div>
+    <h1>How Much <span>Protein</span> Do You Need?</h1>
+    <p class="hero-desc">Personalized daily protein targets for muscle building, fat loss, and optimal health — calculated in seconds.</p>
+    <div class="trust-row">
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Mifflin-St Jeor aligned</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>100% private — no data stored</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Instant results</div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="ad-slot">
+    <script>atOptions={'key':'b31a21d357a574f5abfe948e08497cc3','format':'iframe','height':90,'width':728,'params':{}};</script>
+    <script src="https://www.highperformanceformat.com/b31a21d357a574f5abfe948e08497cc3/invoke.js"></script>
+    <script data-cfasync="false" src="https://adsterra-xxx1.js"></script>
+  </div>
+
+  <!-- Calculator -->
+  <div class="calc-widget" id="calculator">
+    <div class="calc-widget-head">
+      <h2>Protein Intake Calculator</h2>
+      <p>Select your goal, enter your stats, see your personalized range instantly.</p>
+      <div class="mode-tabs">
+        <button class="mode-tab active" data-tab="daily">Daily Protein</button>
+        <button class="mode-tab" data-tab="muscle">Muscle Building</button>
+        <button class="mode-tab" data-tab="loss">Weight Loss</button>
+        <button class="mode-tab" data-tab="meal">Per Meal</button>
+      </div>
+    </div>
+
+    <!-- Daily -->
+    <div class="tab-panel active" id="tab-daily">
+      <div class="calc-widget-body">
+        <div class="calc-form">
+          <div class="field">
+            <label>Body Weight</label>
+            <div class="seg">
+              <button class="unit-btn active" data-unit="lb" data-scope="daily">lbs</button>
+              <button class="unit-btn" data-unit="kg" data-scope="daily">kg</button>
+            </div>
+            <input class="input" id="dailyWeight" type="number" step="0.1" value="175">
+          </div>
+          <div class="field">
+            <label>Activity Level</label>
+            <select class="input" id="dailyActivity">
+              <option value="sedentary">Sedentary — desk job, no exercise</option>
+              <option value="light">Light — 1–2 days/week</option>
+              <option value="moderate" selected>Moderate — 3–4 days/week</option>
+              <option value="active">Active — 5+ days/week</option>
+              <option value="athlete">Athlete — intense training</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Goal</label>
+            <select class="input" id="dailyGoal">
+              <option value="maintain">Maintain health</option>
+              <option value="build" selected>Build muscle</option>
+              <option value="lose">Lose weight</option>
+            </select>
+          </div>
+          <button class="btn-calc" id="calcDaily">Calculate Protein →</button>
+        </div>
+        <div class="calc-result">
+          <div class="result-empty" id="phDaily"><div class="result-empty-icon">📊</div><p>Your protein target<br>appears here</p></div>
+          <div class="result-live" id="resDaily">
+            <div class="result-label">Daily Protein Target</div>
+            <div class="result-value" id="dailyOpt">—<small>g</small></div>
+            <div class="result-meta" id="dailyPerLb">—</div>
+            <div class="result-range"><i id="dailyBar" style="width:50%"></i></div>
+            <div class="result-range-labels"><span id="dailyMin">—</span><span>optimal</span><span id="dailyMax">—</span></div>
+            <div class="result-stats">
+              <div class="result-stat"><div class="k">Optimal</div><div class="v" id="dailyOpt2">—</div></div>
+              <div class="result-stat"><div class="k">Per lb</div><div class="v" id="dailyPerLb2">—</div></div>
+              <div class="result-stat"><div class="k">Per Meal</div><div class="v" id="dailyPerMeal">—</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Muscle -->
+    <div class="tab-panel" id="tab-muscle">
+      <div class="calc-widget-body">
+        <div class="calc-form">
+          <div class="field">
+            <label>Body Weight (lbs)</label>
+            <input class="input" id="muscleWeight" type="number" value="175">
+          </div>
+          <div class="field">
+            <label>Training Experience</label>
+            <select class="input" id="muscleLevel">
+              <option value="beginner">Beginner — 0–1 years</option>
+              <option value="intermediate" selected>Intermediate — 1–3 years</option>
+              <option value="advanced">Advanced — 3+ years</option>
+              <option value="elite">Elite / Competitive</option>
+            </select>
+            <p class="field-hint">Beginners need less per lb; advanced lifters need more.</p>
+          </div>
+          <div class="check">
+            <input type="checkbox" id="useLbm">
+            <label for="useLbm">Use Lean Body Mass instead of total weight (recommended above 25% body fat)</label>
+          </div>
+          <div class="field hidden" id="lbmGroup">
+            <label>Lean Body Mass (lbs)</label>
+            <input class="input" id="muscleLbm" type="number" placeholder="e.g. 150">
+          </div>
+          <button class="btn-calc" id="calcMuscle">Calculate Protein →</button>
+        </div>
+        <div class="calc-result">
+          <div class="result-empty" id="phMuscle"><div class="result-empty-icon">💪</div><p>Muscle building target<br>appears here</p></div>
+          <div class="result-live" id="resMuscle">
+            <div class="result-label">Muscle Building Protein</div>
+            <div class="result-value" id="muscleOpt">—<small>g</small></div>
+            <div class="result-meta" id="musclePerLb">—</div>
+            <div class="result-stats" style="margin-top:24px">
+              <div class="result-stat"><div class="k">Minimum</div><div class="v" id="muscleMin">—</div></div>
+              <div class="result-stat"><div class="k">Maximum</div><div class="v" id="muscleMax">—</div></div>
+              <div class="result-stat"><div class="k">Per Meal</div><div class="v" id="musclePerMeal">—</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loss -->
+    <div class="tab-panel" id="tab-loss">
+      <div class="calc-widget-body">
+        <div class="calc-form">
+          <div class="field-row">
+            <div class="field">
+              <label>Current Weight (lbs)</label>
+              <input class="input" id="lossCurrent" type="number" value="210">
+            </div>
+            <div class="field">
+              <label>Goal Weight (lbs)</label>
+              <input class="input" id="lossGoal" type="number" value="190">
+            </div>
+          </div>
+          <div class="field">
+            <label>Calorie Deficit</label>
+            <select class="input" id="lossDeficit">
+              <option value="small">Small — ~0.5 lb/week</option>
+              <option value="moderate" selected>Moderate — ~1 lb/week</option>
+              <option value="aggressive">Aggressive — 1.5–2 lb/week</option>
+            </select>
+            <p class="field-hint">Larger deficits require more protein to preserve muscle.</p>
+          </div>
+          <button class="btn-calc" id="calcLoss">Calculate Protein →</button>
+        </div>
+        <div class="calc-result">
+          <div class="result-empty" id="phLoss"><div class="result-empty-icon">🔥</div><p>Weight loss protein<br>appears here</p></div>
+          <div class="result-live" id="resLoss">
+            <div class="result-label">Weight Loss Protein</div>
+            <div class="result-value" id="lossOpt">—<small>g</small></div>
+            <div class="result-meta" id="lossPerLb">—</div>
+            <div class="result-stats" style="margin-top:24px">
+              <div class="result-stat"><div class="k">Minimum</div><div class="v" id="lossMin">—</div></div>
+              <div class="result-stat"><div class="k">Current</div><div class="v" id="lossCurrent2">—</div></div>
+              <div class="result-stat"><div class="k">At Goal</div><div class="v" id="lossAtGoal">—</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Meal -->
+    <div class="tab-panel" id="tab-meal">
+      <div class="calc-widget-body">
+        <div class="calc-form">
+          <div class="field">
+            <label>Daily Protein Target (grams)</label>
+            <input class="input" id="mealDaily" type="number" value="175">
+            <p class="field-hint">Use another tab first, or enter a known target.</p>
+          </div>
+          <div class="field">
+            <label>Meals Per Day</label>
+            <select class="input" id="mealCount">
+              <option value="3">3 meals</option>
+              <option value="4" selected>4 meals</option>
+              <option value="5">5 meals</option>
+              <option value="6">6 meals</option>
+            </select>
+          </div>
+          <button class="btn-calc" id="calcMeal">Split Across Meals →</button>
+        </div>
+        <div class="calc-result">
+          <div class="result-empty" id="phMeal"><div class="result-empty-icon">🍽️</div><p>Per-meal breakdown<br>appears here</p></div>
+          <div class="result-live" id="resMeal">
+            <div class="result-label">Protein Per Meal</div>
+            <div class="result-value" id="mealPer">—<small>g</small></div>
+            <div class="result-meta" id="mealSub">—</div>
+            <div class="result-stats" style="margin-top:24px">
+              <div class="result-stat"><div class="k">Daily</div><div class="v" id="mealTotal">—</div></div>
+              <div class="result-stat"><div class="k">Meals</div><div class="v" id="mealNum">—</div></div>
+              <div class="result-stat"><div class="k">Tip</div><div class="v" style="font-size:13px" id="mealTip">—</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key metrics -->
+  <div class="metrics">
+    <div class="metric"><div class="val">0.8–1.2g</div><div class="lbl">per lb for muscle building</div></div>
+    <div class="metric"><div class="val">1.0–1.1g</div><div class="lbl">per lb during weight loss</div></div>
+    <div class="metric"><div class="val">25–40g</div><div class="lbl">optimal per meal</div></div>
+    <div class="metric"><div class="val">3–5</div><div class="lbl">meals per day recommended</div></div>
+  </div>
+
+  <!-- Content grid -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="section-label">Guide</div>
+      <h3>How to Use This Calculator</h3>
+      <p>Four specialized tools for different goals. Pick the tab that matches your objective.</p>
+      <div class="callout"><strong>Daily Protein</strong> — Best starting point. Enter weight, activity, and goal. The optimal value is your target; anywhere in the range works.</div>
+      <div class="callout"><strong>Muscle Building</strong> — Uses training experience (0.8–1.2g/lb). Enable LBM if body fat exceeds ~25%.</div>
+      <div class="callout"><strong>Weight Loss</strong> — Higher protein preserves muscle. Recalculate every 10–15 lbs lost.</div>
+      <div class="section-label" style="margin-top:28px">Formula</div>
+      <h3>How It Works</h3>
+      <p><strong>Daily Protein (g) = Body Weight (lbs) × Protein Factor (g/lb)</strong></p>
+      <ul>
+        <li>Build Muscle: +0.2 to base activity factors</li>
+        <li>Lose Weight: +0.3 to min/optimal, +0.2 to max</li>
+        <li>Deficit: Small 0.9 · Moderate 1.0 · Aggressive 1.1 g/lb</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="section-label">Reference</div>
+      <h3>Quick Reference Tables</h3>
+      <table style="margin-bottom:20px">
+        <thead><tr><th>Training Level</th><th>g/lb</th><th>175 lb</th><th>200 lb</th></tr></thead>
+        <tbody>
+          <tr><td>Beginner</td><td>0.8</td><td>140g</td><td>160g</td></tr>
+          <tr><td>Intermediate</td><td>1.0</td><td>175g</td><td>200g</td></tr>
+          <tr><td>Advanced</td><td>1.1</td><td>193g</td><td>220g</td></tr>
+          <tr><td>Elite</td><td>1.2</td><td>210g</td><td>240g</td></tr>
+        </tbody>
+      </table>
+      <table style="margin-bottom:20px">
+        <thead><tr><th>Deficit</th><th>g/lb</th><th>180 lb</th><th>200 lb</th></tr></thead>
+        <tbody>
+          <tr><td>Small</td><td>0.9</td><td>162g</td><td>180g</td></tr>
+          <tr><td>Moderate</td><td>1.0</td><td>180g</td><td>200g</td></tr>
+          <tr><td>Aggressive</td><td>1.1</td><td>198g</td><td>220g</td></tr>
+        </tbody>
+      </table>
+      <table>
+        <thead><tr><th>Food</th><th>Serving</th><th>Protein</th></tr></thead>
+        <tbody>
+          <tr><td>Chicken Breast</td><td>4 oz</td><td>31g</td></tr>
+          <tr><td>Salmon</td><td>4 oz</td><td>25g</td></tr>
+          <tr><td>Greek Yogurt</td><td>1 cup</td><td>17g</td></tr>
+          <tr><td>Cottage Cheese</td><td>1 cup</td><td>28g</td></tr>
+          <tr><td>Whey Protein</td><td>1 scoop</td><td>25g</td></tr>
+        </tbody>
+      </table>
+      <div class="ad-box">
+        <script>atOptions={'key':'5b2625d96c11d7b599cea160717bc0f6','format':'iframe','height':250,'width':300,'params':{}};</script>
+        <script src="https://www.highperformanceformat.com/5b2625d96c11d7b599cea160717bc0f6/invoke.js"></script>
+        <script data-cfasync="false" src="https://adsterra-xxx2.js"></script>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="section-label">Examples</div>
+      <h3>Real-World Scenarios (Men)</h3>
+      <div class="example-list">
+        <div class="example-item"><strong>Mike, 28 — Beginner Lifter</strong><span>175 lbs · Beginner · 140g/day (0.8g/lb) · 4×35g meals</span></div>
+        <div class="example-item"><strong>James, 32 — Advanced Lifter</strong><span>LBM 166 lbs · 183g/day (1.1g/lb LBM)</span></div>
+        <div class="example-item"><strong>David, 38 — Aggressive Cut</strong><span>210 lbs · Aggressive deficit · 231g/day (1.1g/lb)</span></div>
+        <div class="example-item"><strong>Robert, 65 — Anti-Sarcopenia</strong><span>170 lbs · Light activity · 102g/day, aim upper range</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-label">FAQ</div>
+      <h3>Common Questions</h3>
+      <div class="faq-list">
+        <div class="faq-item"><h4>How much protein to build muscle?</h4><p>Aim for 0.7–1.0g per pound. Advanced lifters benefit from 1.1–1.2g/lb.</p></div>
+        <div class="faq-item"><h4>More protein when cutting?</h4><p>Yes — 1.0–1.2g/lb preserves muscle during a calorie deficit.</p></div>
+        <div class="faq-item"><h4>Body weight vs lean mass?</h4><p>Use LBM above 25% body fat. Otherwise total weight works fine.</p></div>
+        <div class="faq-item"><h4>30g absorption limit?</h4><p>A myth. Spread 25–40g across 3–5 meals for optimal synthesis.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:56px">
+    <div class="section-label">Pro Tips</div>
+    <h3>Hit Your Protein Goals Consistently</h3>
+    <div class="tips-bento">
+      <div class="tip-tile"><h4>Batch Prep Sunday</h4><p>Cook chicken, beef, or eggs in bulk for the week.</p></div>
+      <div class="tip-tile"><h4>Protein-First Meals</h4><p>Choose protein source first, then add carbs and fats.</p></div>
+      <div class="tip-tile"><h4>Strong Breakfast</h4><p>Front-load 25–40g at breakfast to stay ahead.</p></div>
+      <div class="tip-tile"><h4>Smart Snacks</h4><p>Jerky, string cheese, Greek yogurt — always stocked.</p></div>
+      <div class="tip-tile"><h4>Track 2 Weeks</h4><p>Learn portions, then estimate without an app.</p></div>
+      <div class="tip-tile"><h4>Weekly Average</h4><p>Consistency beats hitting the exact number daily.</p></div>
+    </div>
+  </div>
+
+  <div class="ad-slot">
+    <script>atOptions={'key':'5a3667e1a909df26029e97d7d01cf2b5','format':'iframe','height':50,'width':320,'params':{}};</script>
+    <script src="https://www.highperformanceformat.com/5a3667e1a909df26029e97d7d01cf2b5/invoke.js"></script>
+    <script data-cfasync="false" src="https://adsterra-xxx3.js"></script>
+  </div>
+</div>
+
+<footer><div class="container"><p>&copy; 2026 ProteinFit Tools · Protein Intake Calculator (Male) — Educational purposes only. Not medical advice.</p></div></footer>
+
+<script>
+(function(){
+  const ACTIVITY={sedentary:{min:.36,opt:.5,max:.6},light:{min:.5,opt:.6,max:.7},moderate:{min:.6,opt:.7,max:.8},active:{min:.7,opt:.8,max:1},athlete:{min:.8,opt:1,max:1.2}};
+  const GOAL_ADJ={maintain:{min:0,opt:0,max:0},build:{min:.2,opt:.2,max:.2},lose:{min:.3,opt:.3,max:.2}};
+  const MUSCLE_FACTOR={beginner:.8,intermediate:1,advanced:1.1,elite:1.2};
+  const LOSS_FACTOR={small:.9,moderate:1,aggressive:1.1};
+  let dailyUnit='lb';
+
+  function showResult(liveId,phId){
+    document.getElementById(phId).style.display='none';
+    document.getElementById(liveId).classList.add('show');
+  }
+
+  document.querySelectorAll('.mode-tab').forEach(btn=>{
+    btn.onclick=()=>{
+      document.querySelectorAll('.mode-tab').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+    };
+  });
+
+  document.querySelectorAll('.unit-btn[data-scope="daily"]').forEach(btn=>{
+    btn.onclick=()=>{
+      dailyUnit=btn.dataset.unit;
+      document.querySelectorAll('.unit-btn[data-scope="daily"]').forEach(b=>b.classList.toggle('active',b.dataset.unit===dailyUnit));
+    };
+  });
+
+  document.getElementById('useLbm').onchange=function(){
+    document.getElementById('lbmGroup').classList.toggle('hidden',!this.checked);
+  };
+
+  function toLb(w,u){return u==='kg'?w*2.20462:w;}
+  function rnd(n){return Math.round(n);}
+
+  document.getElementById('calcDaily').onclick=function(){
+    let w=parseFloat(document.getElementById('dailyWeight').value)||175;
+    w=toLb(w,dailyUnit);
+    const act=ACTIVITY[document.getElementById('dailyActivity').value];
+    const goal=GOAL_ADJ[document.getElementById('dailyGoal').value];
+    const minF=act.min+goal.min,optF=act.opt+goal.opt,maxF=act.max+goal.max;
+    const minG=rnd(w*minF),optG=rnd(w*optF),maxG=rnd(w*maxF);
+    document.getElementById('dailyOpt').innerHTML=optG+'<small>g</small>';
+    document.getElementById('dailyPerLb').textContent=optF.toFixed(2)+'g per lb · '+rnd(w)+' lbs body weight';
+    document.getElementById('dailyMin').textContent=minG+'g';
+    document.getElementById('dailyMax').textContent=maxG+'g';
+    document.getElementById('dailyOpt2').textContent=optG+'g';
+    document.getElementById('dailyPerLb2').textContent=optF.toFixed(2)+'g';
+    document.getElementById('dailyPerMeal').textContent=rnd(optG/4)+'g';
+    document.getElementById('dailyBar').style.width=Math.min(100,Math.max(10,((optF-minF)/(maxF-minF||1))*100))+'%';
+    showResult('resDaily','phDaily');
+  };
+
+  document.getElementById('calcMuscle').onclick=function(){
+    const useLbm=document.getElementById('useLbm').checked;
+    let w=useLbm?(parseFloat(document.getElementById('muscleLbm').value)||0):(parseFloat(document.getElementById('muscleWeight').value)||175);
+    if(w<50){alert('Please enter a valid weight.');return;}
+    const factor=MUSCLE_FACTOR[document.getElementById('muscleLevel').value];
+    const optG=rnd(w*factor);
+    document.getElementById('muscleOpt').innerHTML=optG+'<small>g</small>';
+    document.getElementById('musclePerLb').textContent=factor+'g/lb'+(useLbm?' lean mass':' body weight');
+    document.getElementById('muscleMin').textContent=rnd(w*.8)+'g';
+    document.getElementById('muscleMax').textContent=rnd(w*1.2)+'g';
+    document.getElementById('musclePerMeal').textContent=rnd(optG/4)+'g';
+    document.getElementById('mealDaily').value=optG;
+    showResult('resMuscle','phMuscle');
+  };
+
+  document.getElementById('calcLoss').onclick=function(){
+    const cur=parseFloat(document.getElementById('lossCurrent').value)||210;
+    const goal=parseFloat(document.getElementById('lossGoal').value)||190;
+    const factor=LOSS_FACTOR[document.getElementById('lossDeficit').value];
+    const optG=rnd(cur*factor);
+    document.getElementById('lossOpt').innerHTML=optG+'<small>g</small>';
+    document.getElementById('lossPerLb').textContent=factor+'g/lb · preserve muscle in deficit';
+    document.getElementById('lossMin').textContent=rnd(cur*.8)+'g';
+    document.getElementById('lossCurrent2').textContent=cur+' lbs';
+    document.getElementById('lossAtGoal').textContent=rnd(goal*factor)+'g';
+    document.getElementById('mealDaily').value=optG;
+    showResult('resLoss','phLoss');
+  };
+
+  document.getElementById('calcMeal').onclick=function(){
+    const daily=parseFloat(document.getElementById('mealDaily').value)||175;
+    const meals=parseInt(document.getElementById('mealCount').value)||4;
+    const per=rnd(daily/meals);
+    document.getElementById('mealPer').innerHTML=per+'<small>g</small>';
+    document.getElementById('mealSub').textContent=daily+'g total ÷ '+meals+' meals';
+    document.getElementById('mealTotal').textContent=daily+'g';
+    document.getElementById('mealNum').textContent=meals;
+    document.getElementById('mealTip').textContent=per>50?'Add meal':'25–40g ideal';
+    showResult('resMeal','phMeal');
+  };
+})();
+</script>
+</body>
+</html>
